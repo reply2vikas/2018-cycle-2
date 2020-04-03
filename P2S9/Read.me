@@ -4,18 +4,19 @@ T3D Psuedo Code-
 
 <###> STEP 1 
 We initialize the Experience Replay Memory with a size of 1e6. Then we populate it with new transitions
+(This is a standard replay buffer borrowed from the OpenAI baseline repo)
 
 ### STEP 2 (Build one DNN for the Actor model and one for Actor Target)
-This is a fairly standard set up for both Actor and Critic networks. Note that the critic class actually contains both networks to be used.
+This is a fairly standard set up for both Actor and Critic networks. Note that the critic class actually contains both networks to be used. The critics forward() method returns the Q values for both critics to be used later.
 
 ### STEP 3 (Build two DNNs for the two Critic models and two DNNs for the two Critic Targets)
-The critics forward() method returns the Q values for both critics to be used later. The get_Q method simply returns the first critic network.
+The get_Q method simply returns the first critic network.
 
 ### STEP 4 (Sample from a batch of transitions (s, s', a, r) from the memory)
 Once we have carried out a full time step through the environment, we train our model for several iterations. The first step in the update carried it involves the critic. This is one of the most important parts of the algorithm and where most of the TD3 additional features are implemented. First thing to do is to sample a mini batch of stored transitions from the replay buffer.
 
-### STEP 5
-From the next state s', the actor target plays the next action a'
+### STEP 5 The actor target plays the next action a', From the next state s'.
+
 
 ### STEP 6 (We add Gaussian noise to this next action a' and we clamp it in a range of values supported by the environment) 
 Next we are going to select an action for each of the states that we have pulled in from our mini batch and apply the target policy smoothing. As described earlier, this is just picking an action with our target actor network and we add noise to that action that has been clipped in order to ensure that the noisy action isn’t too far away from the original action value.
